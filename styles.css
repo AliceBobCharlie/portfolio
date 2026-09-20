@@ -1,0 +1,356 @@
+/* ==========================================================
+   Tokens
+   ========================================================== */
+:root {
+  --paper: #EEF0EA;
+  --paper-raised: #F7F8F4;
+  --line: #D3D6C9;
+  --ink: #1B211D;
+  --ink-soft: #4B5148;
+  --ink-faint: #7B8177;
+
+  --accent-default: #4B3F72;
+
+  --font-display: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --content-width: 880px;
+  --board-width: 1120px;
+  --radius: 3px;
+  --shadow-card: 3px 3px 0 rgba(27, 33, 29, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1B1D19;
+    --paper-raised: #23261F;
+    --line: #3A3E33;
+    --ink: #ECEDE7;
+    --ink-soft: #C3C6BB;
+    --ink-faint: #82877A;
+    --shadow-card: 3px 3px 0 rgba(0, 0, 0, 0.35);
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1B1D19;
+  --paper-raised: #23261F;
+  --line: #3A3E33;
+  --ink: #ECEDE7;
+  --ink-soft: #C3C6BB;
+  --ink-faint: #82877A;
+  --shadow-card: 3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================================
+   Reset & base
+   ========================================================== */
+* { box-sizing: border-box; }
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+body {
+  margin: 0;
+  background:
+    linear-gradient(var(--paper), var(--paper)),
+    repeating-linear-gradient(
+      0deg, transparent, transparent 31px, var(--line) 31px, var(--line) 32px
+    ),
+    repeating-linear-gradient(
+      90deg, transparent, transparent 31px, var(--line) 31px, var(--line) 32px
+    );
+  background-blend-mode: normal, multiply, multiply;
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  padding: env(safe-area-inset-top, 0px) 24px calc(env(safe-area-inset-bottom, 0px) + 48px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body { background-blend-mode: normal, screen, screen; }
+}
+:root[data-theme="dark"] body { background-blend-mode: normal, screen, screen; }
+
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   Hero / profile header
+   ========================================================== */
+.hero {
+  max-width: var(--content-width);
+  margin: 56px auto 40px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.hero__photo,
+.hero__avatar {
+  flex: none;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+.hero__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 600;
+  background: var(--accent-default);
+  color: #fff;
+}
+.hero__body { min-width: 0; }
+.hero__name {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+.hero__bio {
+  max-width: 62ch;
+  margin: 0 0 20px;
+  color: var(--ink-soft);
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.btn-resume {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 9px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-resume svg { width: 14px; height: 14px; }
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+}
+.contact-links a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+.contact-links a:hover { border-bottom-color: var(--ink-soft); }
+
+/* ==========================================================
+   Board hint
+   ========================================================== */
+.board-hint {
+  max-width: var(--board-width);
+  margin: 0 auto 20px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ==========================================================
+   Board & cards
+   ========================================================== */
+.board {
+  max-width: var(--board-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 34px 24px;
+  align-items: start;
+}
+
+.card {
+  position: relative;
+  margin-top: 14px; /* room for the tab */
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: 0 var(--radius) var(--radius) var(--radius);
+  box-shadow: var(--shadow-card);
+}
+.card.dragging { opacity: 0.4; }
+.card.drag-over { outline: 2px dashed var(--ink-faint); outline-offset: 2px; }
+
+.card__tab {
+  position: absolute;
+  top: -14px;
+  left: 18px;
+  height: 14px;
+  padding: 0 10px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent, var(--accent-default));
+}
+
+.card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 18px 16px 14px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.card__header:active { cursor: grabbing; }
+
+.card__heading { flex: 1; min-width: 0; }
+.card__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  margin: 0 0 4px;
+}
+.card__meta {
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin: 0;
+}
+.card__description {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+}
+
+.card__chevron {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.card.expanded .card__chevron { transform: rotate(180deg); }
+.card__chevron svg { width: 11px; height: 11px; }
+
+.card__grip {
+  flex: none;
+  width: 16px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  cursor: grab;
+}
+.card__grip svg { width: 12px; height: 12px; }
+
+/* Expand/collapse via grid-template-rows trick (no JS height math) */
+.card__body-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+.card.expanded .card__body-wrapper { grid-template-rows: 1fr; }
+.card__body-outer { overflow: hidden; min-height: 0; }
+
+.card__body {
+  padding: 4px 16px 16px;
+  border-top: 1px solid var(--line);
+  margin: 0 16px;
+  max-height: 340px;
+  min-height: 96px;
+  overflow: auto;
+  resize: vertical;
+}
+
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.item-list a {
+  text-decoration: none;
+  display: block;
+}
+.item__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.item__title:hover { text-decoration: underline; }
+.item__description {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 2px 0 3px;
+}
+.item__domain {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--ink-faint);
+}
+
+.card__empty {
+  font-size: 13.5px;
+  color: var(--ink-faint);
+  padding: 12px 0 4px;
+  font-style: italic;
+}
+
+/* ==========================================================
+   Footer
+   ========================================================== */
+.site-footer {
+  max-width: var(--content-width);
+  margin: 56px auto 0;
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width: 640px) {
+  .hero { flex-direction: column; gap: 18px; margin-top: 36px; }
+  .board { grid-template-columns: 1fr; }
+  .card__body { resize: none; } /* touch screens can't use the resize handle */
+}
+
+/* ==========================================================
+   Reduced motion
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .card__body-wrapper,
+  .card__chevron {
+    transition: none;
+  }
+}
