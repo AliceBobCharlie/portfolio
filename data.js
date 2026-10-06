@@ -46,11 +46,11 @@ const SITE_DATA = {
       id: "ai-safety",
       title: "AI Safety",
       accent: "#4B3F72",
-      description: "Evaluation, control and interpretability work.",
+      description: "Evaluation, control, alignment and interpretability work.",
       items: [
         {
           title: "The dimensional structure of occupational space: a coordinate system for AI substitution measures",
-          url: "https://github.com/AliceBobCharlie/AI_and_employment",
+          url: "https://alicebobcharlie.github.io/AI_and_employment/",
           description: "A working paper recovering three robust axes of occupational structure (physical intensity, judgement, person-facing work) from O*NET and used them to predict where AI substitution bites.\n"
         },
         {
